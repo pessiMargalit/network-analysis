@@ -65,7 +65,6 @@ if __name__ == '__main__':
     #query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (1, 1, 2, 'UDP')"
     # query_to_update = "UPDATE technician SET email = 'dantech@gmail.com' ,password = 'passwors1234' WHERE id = 1"
     # query_to_update = "ALTER TABLE technician ADD COLUMN email VARCHAR(255) AFTER name,ADD COLUMN password VARCHAR(255) AFTER email"
-    query_to_change = "ALTER TABLE technician CHANGE password password VARCHAR(255) NOT NULL"
-    insert_to_table(query_to_change)
-
-    get_all_from_table("technician")
+    # query_to_change = "ALTER TABLE technician CHANGE email email VARCHAR(255) NOT NULL"
+    # insert_to_table(query_to_change)
+    # get_all_from_table("technician")
