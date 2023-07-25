@@ -36,9 +36,9 @@ def get_all_from_table(table_name):
 
 
 if __name__ == '__main__':
-    # query = r"CREATE TABLE network (id INT NOT NULL AUTO_INCREMENT, client_id INT NOT NULL," \
-    #         " premises VARCHAR(255) NOT NULL, date DATE NOT NULL, " \
-    #         "PRIMARY KEY (id), FOREIGN KEY (client_id) REFERENCES client(id))"
+    query = r"CREATE TABLE network (id INT NOT NULL AUTO_INCREMENT, client_id INT NOT NULL," \
+            " premises VARCHAR(255) NOT NULL, date DATE NOT NULL, " \
+            "PRIMARY KEY (id), FOREIGN KEY (client_id) REFERENCES client(id))"
     # query = r"CREATE TABLE technician (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL,  PRIMARY KEY (id) )"
     # query = r"CREATE TABLE device (id INT NOT NULL AUTO_INCREMENT, MAC_address VARCHAR(255) NOT NULL," \
     #         r" vendor VARCHAR(255) NOT NULL,network_id INT NOT NULL, PRIMARY KEY (id), " \
@@ -47,22 +47,22 @@ if __name__ == '__main__':
     #         r" client_id INT NOT NULL, " \
     #         r" FOREIGN KEY (technician_id) REFERENCES technician(id)," \
     #         r" FOREIGN KEY (client_id) REFERENCES client(id))"
-    query = r"CREATE TABLE device_connection (network_id INT NOT NULL," \
-            r" source INT NOT NULL, " \
-            r" destination INT NOT NULL, " \
-            r" protocol VARCHAR(255) NOT NULL, " \
-            r" FOREIGN KEY (network_id) REFERENCES network(id)," \
-            r" FOREIGN KEY (source) REFERENCES device(id)," \
-            r" FOREIGN KEY (destination) REFERENCES device(id))"
+    # query = r"CREATE TABLE device_connection (network_id INT NOT NULL," \
+    #         r" source INT NOT NULL, " \
+    #         r" destination INT NOT NULL, " \
+    #         r" protocol VARCHAR(255) NOT NULL, " \
+    #         r" FOREIGN KEY (network_id) REFERENCES network(id)," \
+    #         r" FOREIGN KEY (source) REFERENCES device(id)," \
+    #         r" FOREIGN KEY (destination) REFERENCES device(id))"
 
     create_table(query)
 
-    # query_to_insert = "INSERT INTO network (client_id, premises, date) values (1,'Tel Aviv', '2020-03-07')"
+    query_to_insert = "INSERT INTO network (client_id, premises, date) values (1,'Tel Aviv', '2020-03-07')"
     # query_to_insert = 'INSERT into technician (name) values ("Dan")'
     # query_to_insert = "INSERT INTO device (MAC_address, vendor, network_id) values ('84-A9-3E-AE-80-9B'," \
     #                   " 'Hewlett Packard', 1)"
     # query_to_insert = "INSERT INTO technician_clients (technician_id, client_id) values (1, 1)"
-    query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (1, 1, 2, 'UDP')"
+    #query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (1, 1, 2, 'UDP')"
     insert_to_table(query_to_insert)
 
     get_all_from_table("device_connection")
