@@ -34,6 +34,7 @@ def get_all_from_table(table_name):
 
 
 if __name__ == '__main__':
+    pass
     # query = "CREATE TABLE client (id INT NOT NULL AUTO_INCREMENT,  name VARCHAR(255) NOT NULL,   PRIMARY KEY (id) )"
     # query = r"CREATE TABLE network (id INT NOT NULL AUTO_INCREMENT, client_id INT NOT NULL," \
     #         " premises VARCHAR(255) NOT NULL, date DATE NOT NULL, " \
@@ -62,9 +63,9 @@ if __name__ == '__main__':
     # query_to_insert = "INSERT INTO device (MAC_address, vendor, network_id) values ('00:1b:63:84:45:e6'," \
     #                   " 'Apple, Inc.', 2)"
     # query_to_insert = "INSERT INTO technician_clients (technician_id, client_id) values (1, 1)"
-    query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (2, 3, 4, 'TCP')"
+    # query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (2, 3, 4, 'TCP')"
     # query_to_delete = "DELETE FROM client WHERE id = 2"
     # query_to_update = "UPDATE network SET MAC_address = 'd0-c5-d3-b0-3b-c1' WHERE id = 3"
 
-    insert_to_table(query_to_insert)
+    # insert_to_table(query_to_insert)
     # get_all_from_table("")
