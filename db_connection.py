@@ -6,7 +6,7 @@ def connect_to_db():
         host="localhost",
         user="root",
         password="",
-        db="IT4ALL",
+        db="it4all",
         charset="utf8",
         cursorclass=pymysql.cursors.DictCursor
     )
