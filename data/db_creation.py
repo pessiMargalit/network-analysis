@@ -57,13 +57,14 @@ if __name__ == '__main__':
     # create_table(query)
 
     # query_to_insert = 'INSERT into client (name) values ("Wix")'
-    # query_to_insert = "INSERT INTO network (client_id, premises, date) values (1,'Tel Aviv', '2020-03-07')"
+    # query_to_insert = "INSERT INTO network (client_id, premises, date) values (1,'Jerusalem', '2021-07-07')"
     # query_to_insert = 'INSERT into technician (name, email, password) values ("Dan", "dantech@gmail.com", "password1234")'
-    # query_to_insert = "INSERT INTO device (MAC_address, vendor, network_id) values ('7C-8A-E1-C2-B5-09'," \
-    #                   " 'COMPAL INFORMATION (KUNSHAN) CO., LTD.', 1)"
+    # query_to_insert = "INSERT INTO device (MAC_address, vendor, network_id) values ('00:1b:63:84:45:e6'," \
+    #                   " 'Apple, Inc.', 2)"
     # query_to_insert = "INSERT INTO technician_clients (technician_id, client_id) values (1, 1)"
-    # query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (1, 1, 2, 'UDP')"
+    query_to_insert = "INSERT INTO device_connection (network_id, source, destination, protocol) values (2, 3, 4, 'TCP')"
     # query_to_delete = "DELETE FROM client WHERE id = 2"
-    insert_to_table("DROP TABLE Employee")
+    # query_to_update = "UPDATE network SET MAC_address = 'd0-c5-d3-b0-3b-c1' WHERE id = 3"
 
-    # get_all_from_table("client")
+    insert_to_table(query_to_insert)
+    # get_all_from_table("")
