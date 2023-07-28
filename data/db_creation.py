@@ -1,40 +1,46 @@
+import asyncio
+
 from db_connection_server import connect_to_db
+from functools import wraps
 
 connection = connect_to_db()
 
-
-def create_table(query):
-    try:
+def get_from_db(func):
+    @wraps(func)
+    async def filter_by_query(*args, **kwargs):
         with connection.cursor() as cursor:
-            cursor.execute(query)
-            # cursor.execute("SHOW TABLES")
-            connection.commit()
-    except:
-        print("DB Error")
+            query = func(*args, **kwargs)
+            await cursor.execute(query)
+            res = await cursor.fetchall()
+        return res
+    return filter_by_query
 
 
-def insert_to_table(query):
-    try:
+def insert_to_db(func):
+    @wraps(func)
+    async def insert_by_query(*args, **kwargs):
         with connection.cursor() as cursor:
-            cursor.execute(query)
-            connection.commit()
-    except:
-        print("Error")
+            query = func(*args, **kwargs)
+            await cursor.execute(query)
+        return True
+    return insert_by_query
 
 
-def get_all_from_table(table_name):
-    try:
-        with connection.cursor() as cursor:
-            query = f"SELECT * FROM {table_name}"
-            cursor.execute(query)
-            result = cursor.fetchall()
-            print(result)
-    except:
-        print("DB Error")
+@get_from_db
+def get_all(table_name):
+    query = f"SELECT * FROM {table_name}"
+    return query
+
+
+@get_from_db
+def get(query):
+    return query
+
+
 
 
 if __name__ == '__main__':
-    pass
+    print(asyncio.run(get_all("network")))
     # query = "CREATE TABLE client (id INT NOT NULL AUTO_INCREMENT,  name VARCHAR(255) NOT NULL,   PRIMARY KEY (id) )"
     # query = r"CREATE TABLE network (id INT NOT NULL AUTO_INCREMENT, client_id INT NOT NULL," \
     #         " premises VARCHAR(255) NOT NULL, date DATE NOT NULL, " \
