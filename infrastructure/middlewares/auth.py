@@ -64,10 +64,10 @@ def get_user(email: str):
 
 
 def authenticate_user(email: str, password: str):
-    user = get_user(email)
+    user = get_user(email)[0]
     if not user:
         return False
-    if not verify_password(password, user.hashed_password):
+    if not verify_password(password, user["password"]):
         return False
     return user
 
@@ -102,6 +102,7 @@ class TokenData(BaseModel):
 
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
+    print("------------------------create_access_token-------------------------")
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
