@@ -8,7 +8,7 @@ from routes.technician_route import router as technician_router
 curr_path = os.path.dirname(__file__)
 root_path = os.path.join(curr_path, "..")
 sys.path.append(root_path)
-print(sys.path)
+
 app = FastAPI()
 
 app.include_router(network_router)
