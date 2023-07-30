@@ -1,11 +1,8 @@
 import asyncio
+from data.db_creation import get_from_db
 
-from data.db_connection_server import connect_to_db
-
-connection = connect_to_db()
-
-
-async def get_network_devices_connections(network_id):
+@get_from_db
+def get_network_devices_connections(network_id):
     query_to_filter = f"""
         SELECT
             src.MAC_address AS source_MAC,
@@ -21,20 +18,12 @@ async def get_network_devices_connections(network_id):
         WHERE
             con.network_id = {network_id};
         """
-    async with connection.cursor() as cursor:
-        await cursor.execute(query_to_filter)
-        devices = await cursor.fetchall()
-        return devices
-    # print(devices)
+    return query_to_filter
 
-
-async def main():
-    data = await get_network_devices_connections(2)
-    print(data)
 
 # Run the event loop
 if __name__ == "__main__":
-    asyncio.run(main())
+    print(get_network_devices_connections(2))
 
 # get_all(table_name)
 # get(guery)
