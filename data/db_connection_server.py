@@ -18,8 +18,8 @@ def connect_to_db():
     connectionObject = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
 
                                        db=dbName, charset=charSet, cursorclass=cusrorType)
-
     return connectionObject
+
 # try:
 #
 #     # Create a cursor object
