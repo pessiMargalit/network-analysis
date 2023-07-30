@@ -30,7 +30,6 @@ async def upload_capture_file(client_id: int = Form(...), premise: str = Form(..
 
 @router.get(BASE_PATH + "view/{network_id}")
 async def view_network_devices_by_filter(network_id, filter_param: str = None, filter: str = None):
-    print("---------------------view_network_devices_by_filter-----------------------", filter_param, filter)
     return await filter_network_devices(network_id, filter_param, filter)
 
 @router.get("/view/client/{client_id}")

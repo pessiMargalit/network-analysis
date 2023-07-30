@@ -36,7 +36,6 @@ def filter_devices_by_client_id(client_id, filter_param=None, filter_name=None):
 
 @get_from_db
 def filter_devices_by_network_id(network_id, filter_param=None, filter_name=None):
-    print("-------------filter_devices_by_network_id-----------------------")
     if filter_name == None or filter_param == None:
         values = network_id
         query_to_filter = """
