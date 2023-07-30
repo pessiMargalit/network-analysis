@@ -20,6 +20,7 @@ def connect_to_db():
                                        db=dbName, charset=charSet, cursorclass=cusrorType)
     return connectionObject
 
+
 # try:
 #
 #     # Create a cursor object
@@ -50,3 +51,4 @@ def connect_to_db():
 # finally:
 #
 #     connectionObject.close()
+
