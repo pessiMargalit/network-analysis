@@ -1,11 +1,4 @@
-import pymysql
-import asyncio
-from data.db_connection_server import connect_to_db
-from data.db_creation import get_from_db
-
-connection = connect_to_db()
-# async def filter_devices(network_id, filter1, filter_param):
-#     pass
+from data.db_service import get_from_db
 
 
 @get_from_db
@@ -51,7 +44,6 @@ def filter_devices_by_network_id(network_id, filter_param=None, filter_name=None
             AND {} = %s;
             """.format(filter_name)
     return query_to_filter, values
-
 
 # print(filter_devices_by_network_id(1, "Hewlett Packard", "vendor"))
 # print(filter_devices_by_client_id(1, "vendor"))

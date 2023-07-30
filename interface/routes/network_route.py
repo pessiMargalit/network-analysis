@@ -1,8 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, Form
 from app.services.capture_file_service import create_network, choose_file
-from app.services.network_information_service import filter_network_devices as filter_network_devices
-from app.services.device_connection_service import view_network_map as view_network_map
-from app.services.client_devices_information_service import filter_network_devices as filter_network_devices
+from app.services.network_information_service import filter_network_devices
+from app.services.device_connection_service import view_network_map
+from app.services.client_devices_information_service import filter_network_devices
 
 
 router = APIRouter()
