@@ -1,14 +1,17 @@
-from interface.routes.app_server import app
 
+from fastapi import APIRouter
+
+
+router = APIRouter()
 BASE_PATH = "/technician/"
 
 
-@app.post(f"{BASE_PATH}login")
+@router.post(f"{BASE_PATH}login")
 async def login(email, password):
     pass
 
 
-# @app.post("/login", response_model=Token)
+# @router.post("/login", response_model=Token)
 # def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
 #     user = authenticate_user(fakeDB, form_data.username, form_data.password)
 #     print(form_data.username, form_data.password)
@@ -35,6 +38,6 @@ async def login(email, password):
 #     fakeDB[new_user.username] = dict(new_user)
 #     return new_user
 
-@app.get(f"{BASE_PATH}register")
+@router.get(f"{BASE_PATH}register")
 async def register(user):
     pass
