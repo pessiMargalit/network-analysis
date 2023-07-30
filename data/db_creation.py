@@ -1,4 +1,3 @@
-
 import asyncio
 
 import pymysql.cursors
@@ -62,8 +61,8 @@ def insert_to_network(values):
     query = "INSERT INTO network (client_id, premises, date) values (%s, %s, %s)"
     return query, values
 
+
 @insert_to_db
 def insert_to_technician(values):
     query = "INSERT INTO device (MAC_address, vendor, network_id) values (%s, %s, %s)"
     return query, values
-
