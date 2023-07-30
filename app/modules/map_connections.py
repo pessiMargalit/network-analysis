@@ -4,7 +4,6 @@ from data.db_service import get_from_db
 
 @get_from_db
 def get_network_devices_connections(network_id):
-    print("--------------------get_network_devices_connections-----------------------------")
     query_to_filter = f"""
         SELECT
             src.MAC_address AS source_MAC,
