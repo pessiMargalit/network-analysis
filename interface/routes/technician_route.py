@@ -1,4 +1,4 @@
-from app_server import app
+from interface.routes.app_server import app
 
 BASE_PATH = "/technician/"
 

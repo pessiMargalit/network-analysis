@@ -9,7 +9,7 @@ root_path = os.path.join(curr_path, "..")
 sys.path.append(root_path)
 print(sys.path)
 app = FastAPI()
-import routes.network_route
+import interface.routes.network_route
 
 
 #

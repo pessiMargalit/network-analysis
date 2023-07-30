@@ -4,7 +4,7 @@ from app.services.device_connection_service import view_network_map as view_netw
 from app.services.client_devices_information_service import filter_network_devices as filter_network_devices
 
 print("Hello")
-from app_server import app
+from interface.routes.app_server import app
 
 BASE_PATH = "/network/"
 
