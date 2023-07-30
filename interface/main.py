@@ -11,6 +11,7 @@ sys.path.append(root_path)
 
 app = FastAPI()
 
+
 app.include_router(network_router)
 app.include_router(technician_router)
 

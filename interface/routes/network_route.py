@@ -4,7 +4,9 @@ from app.services.network_information_service import filter_network_devices as f
 from app.services.device_connection_service import view_network_map as view_network_map
 from app.services.client_devices_information_service import filter_network_devices as filter_network_devices
 
+
 router = APIRouter()
+
 BASE_PATH = "/network/"
 
 

@@ -1,4 +1,6 @@
+
 from fastapi import APIRouter
+
 
 router = APIRouter()
 BASE_PATH = "/technician/"
