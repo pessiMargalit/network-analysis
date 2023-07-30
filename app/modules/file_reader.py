@@ -73,6 +73,8 @@ async def extract_devices_and_connections(pcap_file_content):
     for src_mac, connections_info in devices.items():
         for dst_mac, protocols in connections_info['destinations'].items():
             connections[(src_mac, dst_mac)] = list(protocols)
+    print(devices)
+    print(connections)
     return devices, connections
 
 
@@ -89,6 +91,6 @@ async def extract_devices_and_connections(pcap_file_content):
 #         print(f"Connection: {src_mac} -> {dst_mac} | Protocols: {', '.join(protocols)}")
 #     print(devices)
 #     print(connections)
-#
-#
+# #
+# #
 # asyncio.run(main())
