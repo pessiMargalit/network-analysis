@@ -12,8 +12,8 @@ def get_from_db(func):
     @wraps(func)
     def filter_by_query(*args, **kwargs):
         with connection.cursor() as cursor:
-            query = func(*args, **kwargs)
-            cursor.execute(query)
+            query_and_values = func(*args, **kwargs)
+            cursor.execute(query_and_values[0], query_and_values[1])
             res = cursor.fetchall()
         return res
 

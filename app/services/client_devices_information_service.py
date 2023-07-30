@@ -1,6 +1,6 @@
-from app.modules.devices_filter import filter_devices as filter_devices
+from app.modules.devices_filter import filter_devices_by_client_id
 
 
-async def filter_network_devices(network_id, filter, filter_param):
-    devices = await filter_devices(network_id, filter, filter_param)
+def filter_network_devices_by_clientid(network_id, filter_param, filter):
+    devices = filter_devices_by_client_id(network_id, filter_param, filter)
     return devices
