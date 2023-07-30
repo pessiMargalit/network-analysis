@@ -12,20 +12,19 @@ async def insert_data_to_db(devices: dict, connections: dict, client_id, premise
 
 
 async def insert_new_network(client_id, premise_name):
-    # date_taken = datetime.date.today()
-    # network_id = insert_to_network((client_id, premise_name, date_taken))
-    network_id = 17
+    date_taken = datetime.date.today()
+    network_id = insert_to_network((client_id, premise_name, date_taken))
     return network_id
 
 
 async def insert_devices(devices, network_id):
-    # for device, device_info in devices.items():
-    #     mac_address = device
-    #     ip_address = device_info['ip_address']
-    #     vendor = device_info['vendor']
-    #     id = insert_to_device((mac_address, ip_address, vendor, network_id))
-    #     if not id:
-    #         return False
+    for device, device_info in devices.items():
+        mac_address = device
+        ip_address = device_info['ip_address']
+        vendor = device_info['vendor']
+        id = insert_to_device((mac_address, ip_address, vendor, network_id))
+        if not id:
+            return False
     return True
 
 
