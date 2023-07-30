@@ -20,33 +20,4 @@ def connect_to_db():
                                        db=dbName, charset=charSet, cursorclass=cusrorType)
 
     return connectionObject
-# try:
-#
-#     # Create a cursor object
-#     cursorObject = connectionObject.cursor()
-#
-#     # SQL query string
-#     sqlQuery = "CREATE TABLE Employee(id int, LastName varchar(32), FirstName varchar(32), DepartmentCode int)"
-#
-#     # Execute the sqlQuery
-#     cursorObject.execute(sqlQuery)
-#
-#     # SQL query string
-#     sqlQuery = "show tables"
-#
-#     # Execute the sqlQuery
-#     cursorObject.execute(sqlQuery)
-#
-#     # Fetch all the rows
-#     rows = cursorObject.fetchall()
-#
-#     for row in rows:
-#         print(row)
-#
-# except Exception as e:
-#
-#     print("Exeception occured:{}".format(e))
-#
-# finally:
-#
-#     connectionObject.close()
+

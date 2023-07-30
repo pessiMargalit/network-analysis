@@ -1,31 +1,38 @@
+import asyncio
 import tkinter as tk
 from tkinter import filedialog
+
 import requests
 
-
-def choose_file():
-    file_path = filedialog.askopenfilename(initialdir="/", title="Select a File",
-                                           filetypes=(("Capture Files", "*.pcap"), ("All Files", "*.*")))
-    if file_path:
-        upload_file(file_path)
+# TODO:A local file that will have the BASE_PATH written in it
+url = "http://127.0.0.1:8000/network/upload"
 
 
-def upload_file(file_path):
+async def choose_file():
+    # TODO: Add option to upload *cap and *capng files
+    capture_file_path = filedialog.askopenfilename(initialdir="/", title="Select a File",
+                                                   filetypes=(("Capture Files", "*.pcap", "*.pcapng"), ("All Files", "*.*")))
+    # capture_file_path = r'C:/Users/User/Downloads/evidence04.pcap'
+    if capture_file_path:
+        upload_file(capture_file_path)
+
+
+def upload_file(capture_file_path):
     try:
-        # Your upload logic goes here
-        # Replace 'https://example.com/upload' with the URL of your server for file upload
-        response = requests.post('https://example.com/upload', files={'file': open(file_path, 'rb')})
-
-        # Check the response to verify the upload was successful
+        with open(capture_file_path, 'rb') as f:
+            files = {'file': (capture_file_path, f, 'application/octet-stream')}
+            print(files)
+            response = requests.post(url, files=files)
         if response.status_code == 200:
             print("File uploaded successfully.")
+            return response.json()
         else:
             print("Failed to upload the file. Response status code:", response.status_code)
-
     except Exception as e:
         print("Error occurred while uploading the file:", e)
 
-choose_file()
+# asyncio.run(choose_file())
+
 # # Create the GUI window
 # window = tk.Tk()
 # window.title("File Upload")
