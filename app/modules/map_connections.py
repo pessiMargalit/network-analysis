@@ -1,5 +1,5 @@
 import asyncio
-from data.db_creation import get_from_db
+from data.db_service import get_from_db
 
 @get_from_db
 def get_network_devices_connections(network_id):

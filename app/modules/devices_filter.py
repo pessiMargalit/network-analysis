@@ -1,7 +1,7 @@
 import pymysql
 import asyncio
 from data.db_connection_server import connect_to_db
-from data.db_creation import get_from_db
+from data.db_service import get_from_db
 
 connection = connect_to_db()
 # async def filter_devices(network_id, filter1, filter_param):
