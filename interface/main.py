@@ -1,16 +1,16 @@
 import uvicorn
 from fastapi import FastAPI
-from scapy.all import *
-from scapy.layers.inet import UDP, IP
-from scapy.layers.l2 import ARP, Ether
-import fastapi
-curr_path = os.path.dirname(__file__)
-root_path = os.path.join(curr_path, "..")
-sys.path.append(root_path)
-print(sys.path)
+
+# from scapy.all import *
+# from scapy.layers.inet import UDP, IP
+# from scapy.layers.l2 import ARP, Ether
+# import fastapi
+# curr_path = os.path.dirname(__file__)
+# root_path = os.path.join(curr_path, "..")
+# sys.path.append(root_path)
+# # print(sys.path)
 app = FastAPI()
 import routes.network_route
-
 
 #
 # packets = rdpcap("../capture_files/evidence01.pcap")
