@@ -3,7 +3,8 @@ from app.modules.visual_connection import get_visual_connection as get_visual_co
 
 
 async def view_network_map(network_id):
-    lst_connection = await get_network_devices_connections(network_id)
+    print("----------------view_network_map--------------------",network_id)
+    lst_connection = get_network_devices_connections(network_id)
     network_map = await get_visual_connection(lst_connection)
     return lst_connection
     # TODO: return network_map

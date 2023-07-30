@@ -8,11 +8,6 @@ router = APIRouter()
 BASE_PATH = "/network/"
 
 
-@router.post(f"{BASE_PATH}new-network-analysis")
-async def choose_capture_file():
-    return await choose_file()
-
-
 @router.post(f"{BASE_PATH}upload")
 async def upload_capture_file(client_id: int = Form(...), premise: str = Form(...), file: UploadFile = File(...)):
     file_content = await file.read()
@@ -20,12 +15,12 @@ async def upload_capture_file(client_id: int = Form(...), premise: str = Form(..
     return is_success
 
 
-@router.get(f"{BASE_PATH}view/:network_id")
-async def view_device_connection(network_id):
+@router.get(BASE_PATH + "device-connections/view/{network_id}")
+async def view_device_connection(network_id: int):
     return await view_network_map(network_id)
 
 
-@router.get(f"{BASE_PATH}view/:network_id")
+@router.get(BASE_PATH+"view/{network_id}")
 async def view_network_devices_by_filter(network_id, filter: str = None, filter_param: str = None):
     return await filter_network_devices(network_id, filter, filter_param)
 
