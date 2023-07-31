@@ -9,8 +9,8 @@ router = APIRouter()
 BASE_PATH = "/network/"
 
 
-@router.post(f"{BASE_PATH}upload")
-async def upload_capture_file(client_id: int = Form(...), premise: str = Form(...), file: UploadFile = File(...)):
+@router.post(BASE_PATH + "client/{client_id}/{premise}/upload")
+async def upload_capture_file(client_id: int, premise: str, file: UploadFile = File(...)):
     file_content = await file.read()
     is_success = await create_network(file_content, client_id, premise)
     return is_success

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Union, Optional, Dict
 from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2
-from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel, Response
 from fastapi.security.utils import get_authorization_scheme_param
 from jose import jwt, JWTError
 from passlib.context import CryptContext
@@ -123,10 +123,15 @@ async def get_current_active_user(current_user=Depends(get_current_user)):
 
 # app.add_middleware(AuthMiddleware, verify_header=verify_authorization_header)
 @get_from_db
-def is_client_exist(network_id):
+def is_client_exist_by_network_id(network_id):
     query = "SELECT EXISTS(SELECT client_id FROM network WHERE id = %s) AS is_client_exist"
     return query, network_id
 
+
+@get_from_db
+def is_client_exist_by_client_id(client_id):
+    query = "SELECT EXISTS(id FROM client WHERE id = %s) AS is_client_exist"
+    return query, client_id
 
 @get_from_db
 def has_permission(network_id, user):
@@ -139,12 +144,15 @@ def has_permission(network_id, user):
     return query, network_id
 
 
-def validate_user_authentication(network_id: int, current_user=Depends(get_current_user)):
-    if not is_client_exist(network_id)[0]["is_client_exist"]:
+def validate_user_authentication(is_network_id: bool, id: int, current_user=Depends(get_current_user)):
+    if is_network_id:
+        if not is_client_exist_by_network_id(id)[0]["is_client_exist"]:
+            raise ValueError("No such client exists in the system")
+    elif not is_client_exist_by_client_id(id)[0]["is_client_exist"]:
         raise ValueError("No such client exists in the system")
     # Check if the current user has permission to receive the client - network ,
     # by checking if the technician has the client_id that has the given network_id
-    if has_permission(network_id, current_user) == ():
+    if has_permission(id, current_user) == ():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="You do not have permission to perform this action",
@@ -153,13 +161,19 @@ def validate_user_authentication(network_id: int, current_user=Depends(get_curre
     return True
 
 # app.add_middleware(AuthMiddleware, verify_header=validate_user_authentication)
-
-# @app.get("/todos/{todo_id}")
-# async def get_specific_todo(todo_id: int, is_authenticated: bool = Depends(validate_user_authentication)):
+# @app.middleware("http")
+# @handle_app_exceptions
+# async def apply_middleware(request: Request, call_next):
+#     # Apply the authorization middleware only to specific endpoints
+#     if request.url.path.startswith("/technician"):
+#         return await auth_middleware(request, call_next)
+# @app.get("/todos/{id}")
+# async def auth_middleware(request:Request, call_next, is_authenticated: bool = Depends(validate_user_authentication)):
 #     if not is_authenticated:
 #         raise HTTPException(
 #             status_code=status.HTTP_401_UNAUTHORIZED,
 #             detail="Not authenticated",
 #             headers={"WWW-Authenticate": "Bearer"},
 #         )
+#     if "client" in request.url.path:
 #     return todo_dict[todo_id]
