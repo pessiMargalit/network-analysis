@@ -102,7 +102,6 @@ class TokenData(BaseModel):
 
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
-    print("------------------------create_access_token-------------------------")
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -153,6 +152,7 @@ def validate_user_authentication(network_id: int, current_user=Depends(get_curre
     return True
 
 # app.add_middleware(AuthMiddleware, verify_header=validate_user_authentication)
+
 
 # @app.get("/todos/{todo_id}")
 # async def get_specific_todo(todo_id: int, is_authenticated: bool = Depends(validate_user_authentication)):
