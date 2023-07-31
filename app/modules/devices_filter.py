@@ -2,47 +2,48 @@ from data.db_service import get_from_db
 
 
 @get_from_db
-def filter_devices_by_client_id(client_id, filter_name=None, filter_param=None):
+def filter_devices(id, query_with_param, query_without_param, filter_name=None, filter_param=None):
     if not filter_name or not filter_param:
-        values = client_id
-        query_to_filter = """
-                SELECT *
+        values = id
+        query_to_filter = query_without_param
+    else:
+        values = (id, filter_param)
+        query_to_filter = query_with_param
+    return query_to_filter, values
+
+
+def filter_devices_by_client_id(client_id, filter_name=None, filter_param=None):
+    query_to_filter_without_param = """
+            SELECT *
             FROM device
             WHERE device.network_id IN (
                 SELECT *
                 FROM network AS n
                 WHERE n.client_id = %s 
             )"""
-    else:
-        values = (client_id, filter_param)
-        query_to_filter = """SELECT *
+
+    query_to_filter_with_param = """SELECT *
                         FROM device
                         WHERE device.network_id IN (
-                            SELECT *
-                            FROM network AS n
-                            WHERE n.client_id = %s 
+                            SELECT network_id
+                            FROM network
+                            WHERE client_id = %s 
                         )
                         AND {} = %s
                         ;""".format(filter_name)
-    return query_to_filter, values
+    return filter_devices(client_id, query_to_filter_with_param, query_to_filter_without_param, filter_name, filter_param)
 
 
-@get_from_db
 def filter_devices_by_network_id(network_id, filter_name=None, filter_param=None):
-    if not filter_name or not filter_param:
-        values = network_id
-        query_to_filter = """
+    query_to_filter_without_param = """
                 SELECT *
                 FROM device
                 WHERE network_id = %s"""
-    else:
-        values = (network_id, filter_param)
-        query_to_filter = """
-            SELECT *
-            FROM device
-            WHERE network_id = %s
-            AND {} = %s
-            """.format(filter_name)
-    return query_to_filter, values
 
-
+    query_to_filter_with_param = """
+        SELECT *
+        FROM device
+        WHERE network_id = %s
+        AND {} = %s
+        """.format(filter_name)
+    return filter_devices(network_id, query_to_filter_with_param, query_to_filter_without_param, filter_name, filter_param)

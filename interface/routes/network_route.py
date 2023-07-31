@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File
 from app.services.capture_file_service import create_network
 from app.services.network_information_service import filter_network_devices
 from app.services.device_connection_service import view_network_map
@@ -9,8 +9,8 @@ router = APIRouter()
 BASE_PATH = "/network/"
 
 
-@router.post(f"{BASE_PATH}upload")
-async def upload_capture_file(client_id: int = Form(...), premise: str = Form(...), file: UploadFile = File(...)):
+@router.post(BASE_PATH + "client/{client_id}/{premise}/upload")
+async def upload_capture_file(client_id: int, premise: str, file: UploadFile = File(...)):
     file_content = await file.read()
     is_success = await create_network(file_content, client_id, premise)
     return is_success
@@ -26,6 +26,6 @@ def get_network_devices_by_filter(network_id: int, filter: str = None, filter_pa
     return filter_network_devices(network_id, filter, filter_param)
 
 
-@router.get(BASE_PATH + "client-devices/{client_id}")
+@router.get(BASE_PATH + "devices/client/{client_id}")
 def get_client_devices_by_filter(client_id, filter: str = None, filter_param: str = None):
     return filter_network_devices_by_client_id(client_id, filter, filter_param)

@@ -14,8 +14,6 @@ BASE_PATH = "/technician/"
 @router.post(f"{BASE_PATH}login", response_model=Token)
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
-    print(form_data.username, form_data.password)
-    print("user:", user)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,9 +1,14 @@
 from pydantic import BaseModel, field_validator, constr, EmailStr
 
-from infrastructure.middlewares.auth import pwd_context
+
+class BaseUser(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    password: constr(min_length=8)
 
 
-class RegistrationUser(BaseModel):
+class RegistrationUser(BaseUser):
     email: EmailStr
     password: constr(min_length=8)
     confirm_password: constr(min_length=8)

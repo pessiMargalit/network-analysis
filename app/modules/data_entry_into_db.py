@@ -4,7 +4,7 @@ import json
 from data.db_service import insert_to_network, insert_to_device, insert_to_device_connection, get_from_db
 
 
-async def insert_data_to_db(devices: dict, connections: dict, client_id, premise_name):
+async def insert_capture_file_data_to_db(devices: dict, connections: dict, client_id, premise_name):
     network_id = await insert_new_network(client_id, premise_name)
     is_devices_insertion_success = await insert_devices(devices, network_id)
     is_devices_connections_insertion_success = await insert_devices_connections(connections, network_id)
@@ -43,6 +43,5 @@ async def insert_devices_connections(connections, network_id):
             # TODO: insert protocols in JSON format
             # protocols = json.dumps(list(protocols))
             protocols = list(protocols)[0]
-            print((network_id, source, destination, protocols))
             insert_to_device_connection((network_id, source, destination, protocols))
     return True
