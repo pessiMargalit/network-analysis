@@ -1,7 +1,9 @@
 import datetime
 import json
 
+
 from data.db_service import insert_to_network, insert_to_device, insert_to_device_connection, get_from_db
+
 
 
 async def insert_capture_file_data_to_db(devices: dict, connections: dict, client_id, premise_name):
@@ -12,6 +14,7 @@ async def insert_capture_file_data_to_db(devices: dict, connections: dict, clien
 
 
 async def insert_new_network(client_id, premise_name):
+
     date_taken = datetime.date.today()
     network_id = insert_to_network((client_id, premise_name, date_taken))
     return network_id

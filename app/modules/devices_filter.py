@@ -1,4 +1,10 @@
+import pymysql
+import asyncio
+from data.db_connection_server import connect_to_db
 from data.db_service import get_from_db
+
+connection = connect_to_db()
+
 
 
 @get_from_db
@@ -39,6 +45,7 @@ def filter_devices_by_network_id(network_id, filter_name=None, filter_param=None
                 SELECT *
                 FROM device
                 WHERE network_id = %s"""
+
 
     query_to_filter_with_param = """
         SELECT *

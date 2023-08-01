@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from starlette import status
 
@@ -11,6 +12,7 @@ from infrastructure.middlewares.auth import validate_user_authentication_by_netw
 router = APIRouter()
 
 BASE_PATH = "/network/"
+
 
 
 @router.post(BASE_PATH + "client/{client_id}/{premise}/upload")
@@ -27,7 +29,7 @@ async def upload_capture_file(client_id: int, premise: str, file: UploadFile = F
     return is_success
 
 
-@router.get(BASE_PATH + "device-connections/view/{network_id}")
+
 async def view_device_connection(network_id: int,
                                  is_authenticated: bool = Depends(validate_user_authentication_by_network_id)):
     if not is_authenticated:
