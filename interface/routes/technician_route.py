@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, Response, encoders
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
-from infrastructure.middlewares.auth import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from infrastructure.middlewares.user import RegistrationUser
+from app.auth.auth import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from app.auth.user import RegistrationUser
 
 router = APIRouter()
 BASE_PATH = "/technician/"

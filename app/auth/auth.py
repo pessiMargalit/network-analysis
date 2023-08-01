@@ -9,7 +9,7 @@ from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 
 from data.db_service import get_from_db
-from infrastructure.middlewares.user import BaseUser
+from app.auth.user import BaseUser
 
 SECRET_KEY = r"PE/9wcV31ayos6hpy/RV0uf9qC8FzJPZKPKVb4h2TJ0="
 ALGORITHM = "HS256"
