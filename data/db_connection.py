@@ -19,11 +19,11 @@ def disconnect():
 def connect_to_db():
     dbServerName = "sql6.freesqldatabase.com"
 
-    dbUser = "sql6635072"
+    dbUser = "sql6633743"
 
-    dbPassword = "tS6Z6mXSx1"
+    dbPassword = "sql6636743"
 
-    dbName = "sql6635072"
+    dbName = "sql6633743"
 
     charSet = "utf8mb4"
 
