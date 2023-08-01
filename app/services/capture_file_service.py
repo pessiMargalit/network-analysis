@@ -1,8 +1,8 @@
 import asyncio
 
 from app.modules.upload_capture_files import choose_file as choose_file
-from app.modules.file_reader import read_file as read_file
-from app.modules.data_entry_into_db import insert_data_to_db as insert_data_to_db
+from app.modules.file_handler import read_file as read_file
+from app.modules.data_entry_into_db import insert_capture_file_data_to_db as insert_data_to_db
 
 
 async def create_network(file_content, client_id, premise):

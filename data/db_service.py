@@ -1,4 +1,5 @@
 from typing import Tuple
+
 from data.db_connection import connect_to_db
 from functools import wraps
 
@@ -6,7 +7,7 @@ connection = connect_to_db()
 
 
 def get_from_db(func):
-    # @wraps(func)
+    @wraps(func)
     def filter_by_query(*args, **kwargs):
         with connection.cursor() as cursor:
             query_and_values = func(*args, **kwargs)
