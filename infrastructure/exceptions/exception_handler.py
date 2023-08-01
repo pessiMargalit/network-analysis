@@ -5,7 +5,7 @@ from fastapi import HTTPException
 def db_handler(func):
     def decorator_exception(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         # Raised for errors related to programming errors, such as SQL syntax errors or incorrect query parameters
         except pymysql.err.ProgrammingError as err:
             raise err
@@ -38,15 +38,14 @@ def db_handler(func):
             raise err
         except Exception as ex:
             raise ex
-        return decorator_exception
 
-    return db_handler
+    return decorator_exception
 
 
 def file_handler(func):
     def decorator_exception(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         except IOError as e:
             raise e
         except PermissionError as e:
@@ -56,30 +55,27 @@ def file_handler(func):
 
         except Exception as ex:
             raise ex
-        return decorator_exception
 
-    return file_handler
+    return decorator_exception
 
 
 def api_handler(func, status_code=404, detail="Item not found"):
     def decorator_exception(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         except HTTPException as ex:
             HTTPException(status_code=status_code, detail=detail)
         except Exception as ex:
             raise ex
-        return decorator_exception
 
-    return api_handler
+    return decorator_exception
 
 
 def basic_exception_handler(func):
     def decorator_exception(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         except Exception as ex:
             raise ex
-        return decorator_exception
 
-    return basic_exception_handler
+    return decorator_exception

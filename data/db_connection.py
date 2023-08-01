@@ -10,9 +10,17 @@ active_connection = None
 def get_connection():
     return active_connection if active_connection else connect_to_db()
 
+active_connection = None
+
+def get_connection():
+    return active_connection if active_connection else connect_to_db()
+
 
 def disconnect():
     get_connection().close()
+
+
+
 
 
 # Create a connection object

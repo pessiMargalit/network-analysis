@@ -1,9 +1,9 @@
 from typing import Tuple
 
-from data.db_connection import get_connection
+from data.db_connection import connect_to_db
 from functools import wraps
 
-connection = get_connection()
+connection = connect_to_db()
 
 
 def get_from_db(func):
