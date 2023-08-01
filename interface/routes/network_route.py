@@ -8,6 +8,8 @@ from app.services.device_connection_service import view_network_map
 from app.services.client_devices_information_service import filter_network_devices_by_client_id
 from infrastructure.middlewares.auth import validate_user_authentication_by_network_id\
     , validate_user_authentication_by_client_id
+from app.services.network_information_service import get_network_information
+
 
 router = APIRouter()
 
@@ -63,3 +65,7 @@ def get_client_devices_by_filter(client_id, filter: str = None, filter_param: st
             headers={"WWW-Authenticate": "Bearer"},
         )
     return filter_network_devices_by_client_id(client_id, filter, filter_param)
+
+@router.get(BASE_PATH+"information/{network_id}")
+def get_network_statistics_information(network_id):
+    return get_network_information(network_id)
