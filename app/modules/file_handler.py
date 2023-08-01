@@ -2,20 +2,33 @@ from mac_vendor_lookup import AsyncMacLookup
 from scapy.all import rdpcap
 from scapy.libs.six import BytesIO
 
+from infrastructure.exceptions.exception_handler import basic_exception_handler, file_handler
 
+
+@basic_exception_handler
+async def is_pcap(file_content):
+    # Check if the file content matches the PCAP magic number
+    pcap_magic_number = b"\xd4\xc3\xb2\xa1"  # little-endian
+    return file_content.startswith(pcap_magic_number)
+
+
+@basic_exception_handler
+async def is_pcapng(file_content):
+    # Check if the file content matches the PCAPNG magic number
+    pcapng_magic_number = b"\x0a\x0d\x0d\x0a\x00\x00\x00\x01"
+    return file_content.startswith(pcapng_magic_number)
+
+
+@file_handler
 async def read_file(capture_file_content):
-    try:
-        # TODO: Match cases for each type of capture files
+    if await is_pcap(capture_file_content) or await is_pcapng(capture_file_content):
         pcap_file = BytesIO(capture_file_content)
         packets = rdpcap(pcap_file)
         return await extract_devices_and_connections(packets)
-
-    except FileNotFoundError:
-        print(f"File not found: {capture_file_content}")
-    except Exception as e:
-        print(f"Error occurred: {e}")
+    raise Exception("Only capture files must be uploaded")
 
 
+@basic_exception_handler
 async def get_device_vendor_by_mac_address(mac_address, ip_address):
     try:
         device_vendor = await AsyncMacLookup().lookup(mac_address)
@@ -24,6 +37,7 @@ async def get_device_vendor_by_mac_address(mac_address, ip_address):
     return {'ip_address': ip_address, 'vendor': device_vendor, 'destinations': {}}
 
 
+@basic_exception_handler
 def get_protocol(packet):
     if 'TCP' in packet:
         return packet['TCP'].name
@@ -36,6 +50,7 @@ def get_protocol(packet):
     return 'Unknown'
 
 
+@basic_exception_handler
 def get_devices_connections(devices):
     connections = {}
     for src_mac, connections_info in devices.items():
@@ -44,6 +59,7 @@ def get_devices_connections(devices):
     return connections
 
 
+@basic_exception_handler
 async def extract_devices_and_connections(packets):
     devices = {}
     connections = {}
@@ -69,5 +85,3 @@ async def extract_devices_and_connections(packets):
         devices[src_mac]['destinations'][dst_mac].add(protocol)
     connections = get_devices_connections(devices)
     return devices, connections
-
-

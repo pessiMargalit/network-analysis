@@ -53,8 +53,8 @@ def file_handler(func):
         except FileNotFoundError as err:
             raise err
 
-        except Exception as ex:
-            raise ex
+        except Exception as e:
+            return {"error": str(e)}
 
     return decorator_exception
 

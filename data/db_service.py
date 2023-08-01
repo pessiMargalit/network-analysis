@@ -3,9 +3,12 @@ from typing import Tuple
 from data.db_connection import connect_to_db
 from functools import wraps
 
+from infrastructure.exceptions.exception_handler import db_handler
+
 connection = connect_to_db()
 
 
+@db_handler
 def get_from_db(func):
     @wraps(func)
     def filter_by_query(*args, **kwargs):
@@ -19,6 +22,7 @@ def get_from_db(func):
     return filter_by_query
 
 
+@db_handler
 def insert_to_db(func):
     @wraps(func)
     def insert_by_query(*args, **kwargs):

@@ -6,11 +6,13 @@ from starlette import status
 
 from app.auth.auth import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.auth.user import RegistrationUser
+from infrastructure.exceptions.exception_handler import api_handler
 
 router = APIRouter()
 BASE_PATH = "/technician/"
 
 
+@api_handler
 @router.post(f"{BASE_PATH}login", response_model=Token)
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
@@ -30,6 +32,7 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@api_handler
 @router.get(f"{BASE_PATH}register")
 async def register(user: RegistrationUser):
     pass

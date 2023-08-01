@@ -3,7 +3,8 @@ import sys
 import uvicorn
 from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware
-from infrastructure.middlewares.auth_middleware import auth_middleware
+
+from app.auth.auth_middleware import auth_middleware
 from routes.network_route import router as network_router
 from routes.technician_route import router as technician_router
 from data.db_connection import get_connection, disconnect
