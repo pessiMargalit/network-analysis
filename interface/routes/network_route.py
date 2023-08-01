@@ -13,6 +13,7 @@ router = APIRouter()
 BASE_PATH = "/network/"
 
 
+
 @router.post(BASE_PATH + "client/{client_id}/{premise}/upload")
 async def upload_capture_file(client_id: int, premise: str, file: UploadFile = File(...),
                               is_authenticated: bool = Depends(validate_user_authentication_by_client_id)):
@@ -27,7 +28,7 @@ async def upload_capture_file(client_id: int, premise: str, file: UploadFile = F
     return is_success
 
 
-@router.get(BASE_PATH + "device-connections/view/{network_id}")
+
 async def view_device_connection(network_id: int,
                                  is_authenticated: bool = Depends(validate_user_authentication_by_network_id)):
     if not is_authenticated:

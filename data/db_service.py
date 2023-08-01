@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from data.db_connection import connect_to_db,get_connection
+from data.db_connection import get_connection
 from functools import wraps
 
 connection = get_connection()

@@ -40,6 +40,7 @@ def filter_devices_by_network_id(network_id, filter_name=None, filter_param=None
                 FROM device
                 WHERE network_id = %s"""
 
+
     query_to_filter_with_param = """
         SELECT *
         FROM device
