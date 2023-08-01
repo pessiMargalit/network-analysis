@@ -69,3 +69,5 @@ async def extract_devices_and_connections(packets):
         devices[src_mac]['destinations'][dst_mac].add(protocol)
     connections = get_devices_connections(devices)
     return devices, connections
+
+

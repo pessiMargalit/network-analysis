@@ -3,6 +3,14 @@ from infrastructure.middlewares.auth import validate_user_authentication_by_clie
     validate_user_authentication_by_network_id
 
 
+# def auth_middleware(request: Request, call_next):
+#     token = oauth2_cookie_scheme(request)
+#     user = get_user_from_token(token)
+#     request.state.user = user
+#     response = call_next(request)
+#     return response
+
+
 def get_client_id_from_url(url):
     url = url.split["/"]["client":]
     return url[1]

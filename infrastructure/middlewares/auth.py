@@ -74,7 +74,6 @@ def authenticate_user(email: str, password: str):
 
 
 async def get_current_user(token: str = Depends(oauth2_cookie_scheme)):
-    print("---------------get_current_user----------------------------")
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -131,7 +130,7 @@ def is_client_exist_by_network_id(network_id):
 
 @get_from_db
 def is_client_exist_by_client_id(client_id):
-    query = "SELECT EXISTS(id FROM client WHERE id = %s) AS is_client_exist"
+    query = "SELECT EXISTS(SELECT id FROM client WHERE id = %s) AS is_client_exist"
     return query, client_id
 
 
@@ -142,12 +141,13 @@ def has_permission_to_client_networks(client_id, user_id):
              FROM 
                  technician_clients
              WHERE 
-                 technician_id = {user_id.id} AND client_id = %s"""
+                 technician_id = {user_id} AND client_id = %s"""
     return query, client_id
 
 
 @get_from_db
 def has_permission_to_networks(network_id, user_id):
+    print("user_id",user_id)
     query = f"""SELECT 
                  client_id
              FROM 
@@ -161,7 +161,7 @@ def validate_user_authentication_by_client_id(client_id: int, current_user: Base
     if not is_client_exist_by_client_id(client_id)[0]["is_client_exist"]:
         raise ValueError("No such client exists in the system")
     # Check if the current user has permission to receive the client networks
-    if has_permission_to_client_networks(client_id, current_user.id) == ():
+    if has_permission_to_client_networks(client_id, current_user[0]["id"]) == ():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="You do not have permission to perform this action",
@@ -171,13 +171,11 @@ def validate_user_authentication_by_client_id(client_id: int, current_user: Base
 
 
 def validate_user_authentication_by_network_id(network_id: int, current_user: BaseUser = Depends(get_current_user)):
-    print("validate_user_authentication_by_network_id", current_user)
-    print(current_user.id)
     if not is_client_exist_by_network_id(network_id)[0]["is_client_exist"]:
         raise ValueError("No such client exists in the system")
     # Check if the current user has permission to receive the client - network ,
     # by checking if the technician has the client_id that has the given network_id
-    if has_permission_to_networks(network_id, current_user.id) == ():
+    if has_permission_to_networks(network_id, current_user[0]["id"]) == ():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="You do not have permission to perform this action",
@@ -186,20 +184,3 @@ def validate_user_authentication_by_network_id(network_id: int, current_user: Ba
     return True
 
 # app.add_middleware(AuthMiddleware, verify_header=validate_user_authentication)
-
-# @app.middleware("http")
-# @handle_app_exceptions
-# async def apply_middleware(request: Request, call_next):
-#     # Apply the authorization middleware only to specific endpoints
-#     if request.url.path.startswith("/technician"):
-#         return await auth_middleware(request, call_next)
-# @app.get("/todos/{id}")
-# async def auth_middleware(request:Request, call_next, is_authenticated: bool = Depends(validate_user_authentication)):
-#     if not is_authenticated:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Not authenticated",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     if "client" in request.url.path:
-#     return todo_dict[todo_id]
