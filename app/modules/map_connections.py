@@ -11,11 +11,12 @@ def get_network_devices_connections(network_id):
             src.ip_address AS source_ip,
             dst.MAC_address AS destination_MAC,
             dst.vendor AS destination_vendor,
-            dst.ip_address AS destination_ip            
+            dst.ip_address AS destination_ip,
+            protocol AS protocol         
         FROM
             device_connection AS con
         JOIN
-            device AS src ON con.source = src.id
+            device AS src ON con.source = src.id 
         JOIN
             device AS dst ON con.destination = dst.id
         WHERE

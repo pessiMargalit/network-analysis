@@ -1,4 +1,6 @@
 from fastapi import APIRouter, UploadFile, File
+from starlette.responses import Response
+
 from app.services.capture_file_service import create_network
 from app.services.network_information_service import filter_network_devices
 from app.services.device_connection_service import view_network_map
@@ -18,7 +20,9 @@ async def upload_capture_file(client_id: int, premise: str, file: UploadFile = F
 
 @router.get(BASE_PATH + "device-connections/view/{network_id}")
 async def view_device_connection(network_id: int):
-    return await view_network_map(network_id)
+    dict_response= await view_network_map(network_id)
+    return Response(**dict_response)
+
 
 
 @router.get(BASE_PATH + "devices/{network_id}")
