@@ -1,9 +1,9 @@
 from datetime import timedelta
-
 from fastapi import APIRouter, Depends, HTTPException, Response, encoders
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
+from data.db_service import insert_to_technician, insert_to_technician_clients
 from app.auth.auth import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.auth.user import RegistrationUser
 from infrastructure.exceptions.exception_handler import api_handler
@@ -32,10 +32,11 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@api_handler
-@router.get(f"{BASE_PATH}register")
-async def register(user: RegistrationUser):
-    pass
-#     new_user = DBUser(**dict(user), hashed_password=get_password_hash(user.password))
-#     fakeDB[new_user.username] = dict(new_user)
-#     return new_user
+@router.post(BASE_PATH + "register")
+async def register(user: RegistrationUser,clients_list):
+    technitian_id = insert_to_technician(**user)
+    for client in clients_list:
+        #maybe need to check the id if exists
+        insert_to_technician_clients(technitian_id,client)
+
+

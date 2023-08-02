@@ -20,7 +20,8 @@ def db_handler(func):
             raise err
         # This exception is raised for operational errors, such as a connection that went bad during a query
         except pymysql.err.OperationalError as err:
-            raise err
+            print(pymysql.err.OperationalError, err)
+            raise f"{pymysql.err.OperationalError}: err"
         # Raised when there are errors related to data processing, like incorrect data types or out-of-range values
         except pymysql.err.DataError as err:
             raise err
@@ -54,7 +55,8 @@ def file_handler(func):
             raise err
 
         except Exception as e:
-            return {"error": str(e)}
+            print(e)
+            raise e
 
     return decorator_exception
 
@@ -76,6 +78,7 @@ def basic_exception_handler(func):
         try:
             return func(*args, **kwargs)
         except Exception as ex:
-            raise ex
+            print(ex)
+            raise HTTPException(status_code=400, detail=repr(ex))
 
     return decorator_exception

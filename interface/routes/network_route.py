@@ -1,7 +1,8 @@
+
+import io
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from starlette import status
-from starlette.responses import Response
-
+from starlette.responses import Response, StreamingResponse
 from app.services.capture_file_service import create_network
 from app.services.device_information_service import get_device_information
 from app.services.network_information_service import filter_network_devices
@@ -15,6 +16,7 @@ from infrastructure.exceptions.exception_handler import api_handler
 router = APIRouter()
 
 BASE_PATH = "/network/"
+
 
 @api_handler
 @router.post(BASE_PATH + "client/{client_id}/{premise}/upload")
@@ -30,6 +32,7 @@ async def upload_capture_file(client_id: int, premise: str, file: UploadFile = F
     is_success = await create_network(file_content, client_id, premise)
     return is_success
 
+
 @api_handler
 @router.get(BASE_PATH + "device-connections/view/{network_id}")
 async def view_device_connection(network_id: int,
@@ -40,8 +43,10 @@ async def view_device_connection(network_id: int,
             detail="Not authenticated",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    response_dict = await view_network_map(network_id)
-    return Response(**response_dict)
+    buffer =await view_network_map(network_id)
+    buffer.seek(0)
+    StreamingResponse(io.BytesIO(buffer.getvalue()), media_type="image/png")
+
 
 @api_handler
 @router.get(BASE_PATH + "devices/{network_id}")
@@ -55,6 +60,7 @@ def get_network_devices_by_filter(network_id: int, filter: str = None, filter_pa
         )
     return filter_network_devices(network_id, filter, filter_param)
 
+
 @api_handler
 @router.get(BASE_PATH + "devices/client/{client_id}")
 def get_client_devices_by_filter(client_id, filter: str = None, filter_param: str = None,
@@ -66,6 +72,7 @@ def get_client_devices_by_filter(client_id, filter: str = None, filter_param: st
             headers={"WWW-Authenticate": "Bearer"},
         )
     return filter_network_devices_by_client_id(client_id, filter, filter_param)
+
 
 @api_handler
 @router.get(BASE_PATH + "information/{network_id}")
@@ -79,10 +86,11 @@ def get_network_statistics_information(network_id,
         )
     return get_network_information(network_id)
 
+
 @api_handler
 @router.get(BASE_PATH + "information/device/{device_id}")
 def get_network_statistics_information(device_id,
-                                       #is_authenticated: bool = Depends(validate_user_authentication_by_network_id)
+                                       # is_authenticated: bool = Depends(validate_user_authentication_by_network_id)
                                        ):
     # if not is_authenticated:
     #     raise HTTPException(

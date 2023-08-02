@@ -87,3 +87,15 @@ def insert_to_technician_clients(values):
 def insert_to_protocol(values):
     query = "INSERT INTO protocol (connection_id, protocol_type) values (%s, %s)"
     return query, values
+
+
+@get_from_db
+def is_client_exist_by_network_id(network_id):
+    query = "SELECT EXISTS(SELECT client_id FROM network WHERE id = %s) AS is_client_exist"
+    return query, network_id
+
+
+@get_from_db
+def is_client_exist_by_client_id(client_id):
+    query = "SELECT EXISTS(SELECT id FROM client WHERE id = %s) AS is_client_exist"
+    return query, client_id
