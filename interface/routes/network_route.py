@@ -1,7 +1,8 @@
+
+import io
 from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from starlette import status
-from starlette.responses import Response
-
+from starlette.responses import Response, StreamingResponse
 from app.services.capture_file_service import create_network
 from app.services.device_information_service import get_device_information
 from app.services.network_information_service import filter_network_devices
@@ -42,8 +43,9 @@ async def view_device_connection(network_id: int,
             detail="Not authenticated",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    response_dict = await view_network_map(network_id)
-    return Response(**response_dict)
+    buffer =await view_network_map(network_id)
+    buffer.seek(0)
+    StreamingResponse(io.BytesIO(buffer.getvalue()), media_type="image/png")
 
 
 @api_handler
