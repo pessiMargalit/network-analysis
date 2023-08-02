@@ -1,9 +1,6 @@
-import asyncio
 from data.db_service import get_from_db
-from infrastructure.exceptions.exception_handler import basic_exception_handler
 
 
-@basic_exception_handler
 @get_from_db
 def get_network_devices_connections(network_id):
     #            protocol AS protocol

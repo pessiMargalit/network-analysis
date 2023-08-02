@@ -6,13 +6,11 @@ from starlette import status
 from data.db_service import insert_to_technician, insert_to_technician_clients
 from app.auth.auth import Token, authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.auth.user import RegistrationUser
-from infrastructure.exceptions.exception_handler import api_handler
 
 router = APIRouter()
 BASE_PATH = "/technician/"
 
 
-@api_handler
 @router.post(f"{BASE_PATH}login", response_model=Token)
 def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
@@ -33,10 +31,8 @@ def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
 
 
 @router.post(BASE_PATH + "register")
-async def register(user: RegistrationUser,clients_list):
+async def register(user: RegistrationUser, clients_list):
     technitian_id = insert_to_technician(**user)
     for client in clients_list:
-        #maybe need to check the id if exists
-        insert_to_technician_clients(technitian_id,client)
-
-
+        # maybe need to check the id if exists
+        insert_to_technician_clients(technitian_id, client)

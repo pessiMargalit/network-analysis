@@ -29,9 +29,7 @@ async def get_visual_connection(lst_connections: List):
     # Save the plot to a BytesIO buffer
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
-    plt.show()
-    # Clear the plot
+    buffer.seek(0)
+    # plt.show()
     plt.clf()
     return buffer
-
-

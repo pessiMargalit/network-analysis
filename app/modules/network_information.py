@@ -1,8 +1,6 @@
 from data.db_service import get_from_db
-from infrastructure.exceptions.exception_handler import basic_exception_handler
 
 
-@basic_exception_handler
 @get_from_db
 def get_most_frequent_protocols(network_id):
     query = """SELECT protocol.protocol_type, COUNT(*) AS protocol_count
