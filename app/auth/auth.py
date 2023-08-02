@@ -8,7 +8,7 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 
-from data.db_service import get_from_db
+from data.db_service import get_from_db, is_client_exist_by_client_id, is_client_exist_by_network_id
 from app.auth.user import BaseUser
 from infrastructure.exceptions.exception_handler import basic_exception_handler
 
@@ -129,17 +129,6 @@ async def get_current_active_user(current_user: BaseUser = Depends(get_current_u
 # TODO:Is admin middleware
 
 # app.add_middleware(AuthMiddleware, verify_header=verify_authorization_header)
-@get_from_db
-def is_client_exist_by_network_id(network_id):
-    query = "SELECT EXISTS(SELECT client_id FROM network WHERE id = %s) AS is_client_exist"
-    return query, network_id
-
-
-@get_from_db
-def is_client_exist_by_client_id(client_id):
-    query = "SELECT EXISTS(SELECT id FROM client WHERE id = %s) AS is_client_exist"
-    return query, client_id
-
 
 @get_from_db
 def has_permission_to_client_networks(client_id, user_id):
@@ -166,7 +155,11 @@ def has_permission_to_networks(network_id, user_id):
 # @basic_exception_handler
 def validate_user_authentication_by_client_id(client_id: int, current_user: BaseUser = Depends(get_current_user)):
     if not is_client_exist_by_client_id(client_id)[0]["is_client_exist"]:
-        raise ValueError("No such client exists in the system")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No such client exists in the system",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     # Check if the current user has permission to receive the client networks
     if has_permission_to_client_networks(client_id, current_user[0]["id"]) == ():
         raise HTTPException(
@@ -180,7 +173,11 @@ def validate_user_authentication_by_client_id(client_id: int, current_user: Base
 # @basic_exception_handler
 def validate_user_authentication_by_network_id(network_id: int, current_user: BaseUser = Depends(get_current_user)):
     if not is_client_exist_by_network_id(network_id)[0]["is_client_exist"]:
-        raise ValueError("No such client exists in the system")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No such client exists in the system",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     # Check if the current user has permission to receive the client - network ,
     # by checking if the technician has the client_id that has the given network_id
     if has_permission_to_networks(network_id, current_user[0]["id"]) == ():
