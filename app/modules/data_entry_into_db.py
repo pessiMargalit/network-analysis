@@ -1,11 +1,12 @@
 import datetime
 import json
 
+from data.db_service import insert_to_network, insert_to_device, insert_to_protocol, \
+    insert_to_device_connection, get_from_db
+from infrastructure.exceptions.exception_handler import basic_exception_handler
 
-from data.db_service import insert_to_network, insert_to_device, insert_to_device_connection, get_from_db
 
-
-
+@basic_exception_handler
 async def insert_capture_file_data_to_db(devices: dict, connections: dict, client_id, premise_name):
     network_id = await insert_new_network(client_id, premise_name)
     is_devices_insertion_success = await insert_devices(devices, network_id)
@@ -13,13 +14,14 @@ async def insert_capture_file_data_to_db(devices: dict, connections: dict, clien
     return is_devices_insertion_success and is_devices_connections_insertion_success
 
 
+@basic_exception_handler
 async def insert_new_network(client_id, premise_name):
-
     date_taken = datetime.date.today()
     network_id = insert_to_network((client_id, premise_name, date_taken))
     return network_id
 
 
+@basic_exception_handler
 async def insert_devices(devices, network_id):
     for device, device_info in devices.items():
         mac_address = device
@@ -37,14 +39,18 @@ def get_device_id_by_mac_address(mac_address):
     return query, mac_address
 
 
+@basic_exception_handler
 async def insert_devices_connections(connections, network_id):
     for (src_mac, dst_mac), protocols in connections.items():
         source = get_device_id_by_mac_address(src_mac)[0]['id']
         destination = get_device_id_by_mac_address(dst_mac)
         if destination:
             destination = destination[0]['id']
-            # TODO: insert protocols in JSON format
-            # protocols = json.dumps(list(protocols))
-            protocols = list(protocols)[0]
-            insert_to_device_connection((network_id, source, destination, protocols))
+            connection_id = insert_to_device_connection((network_id, source, destination))
+            await insert_protocol_to_db(list(protocols), connection_id)
     return True
+
+
+@basic_exception_handler
+async def insert_protocol_to_db(protocols, connection_id):
+    [insert_to_protocol((connection_id, protocol)) for protocol in protocols]

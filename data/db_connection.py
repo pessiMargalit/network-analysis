@@ -4,23 +4,19 @@ import os
 import pymysql
 from passlib.handlers import mysql
 
-active_connection = None
-
-
-def get_connection():
-    return active_connection if active_connection else connect_to_db()
+from infrastructure.exceptions.exception_handler import db_handler
 
 active_connection = None
 
+
+@db_handler
 def get_connection():
     return active_connection if active_connection else connect_to_db()
 
 
+@db_handler
 def disconnect():
     get_connection().close()
-
-
-
 
 
 # Create a connection object
@@ -42,7 +38,6 @@ def connect_to_db():
                                        db=dbName, charset=charSet, cursorclass=cusrorType)
     active_connection = connectionObject
     return active_connection
-
 
 # def connect_to_db():
 #     config_data = configparser.ConfigParser()

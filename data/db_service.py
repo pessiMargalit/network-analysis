@@ -3,9 +3,12 @@ from typing import Tuple
 from data.db_connection import connect_to_db
 from functools import wraps
 
+from infrastructure.exceptions.exception_handler import db_handler
+
 connection = connect_to_db()
 
 
+@db_handler
 def get_from_db(func):
     @wraps(func)
     def filter_by_query(*args, **kwargs):
@@ -19,6 +22,7 @@ def get_from_db(func):
     return filter_by_query
 
 
+@db_handler
 def insert_to_db(func):
     @wraps(func)
     def insert_by_query(*args, **kwargs):
@@ -57,7 +61,7 @@ def insert_to_client(values):
 
 @insert_to_db
 def insert_to_network(values):
-    query = "INSERT INTO network (client_id, premises, date) values (%s, %s, %s)"
+    query = "INSERT INTO network (client_id, premise, date) values (%s, %s, %s)"
     return query, values
 
 
@@ -69,11 +73,17 @@ def insert_to_device(values):
 
 @insert_to_db
 def insert_to_device_connection(values: Tuple):
-    query = "INSERT INTO device_connection (network_id, source, destination, protocol) values (%s, %s, %s, %s)"
+    query = "INSERT INTO device_connection (network_id, source, destination) values (%s, %s, %s)"
     return query, values
 
 
 @insert_to_db
 def insert_to_technician_clients(values):
     query = "INSERT INTO technician_clients (technician_id, client_id) values (%s, %s)"
+    return query, values
+
+
+@insert_to_db
+def insert_to_protocol(values):
+    query = "INSERT INTO protocol (connection_id, protocol_type) values (%s, %s)"
     return query, values

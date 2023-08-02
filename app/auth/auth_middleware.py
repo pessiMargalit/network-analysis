@@ -1,5 +1,5 @@
-from fastapi import APIRouter, HTTPException, Request, status
-from infrastructure.middlewares.auth import validate_user_authentication_by_client_id, \
+from fastapi import HTTPException, Request, status
+from app.auth.auth import validate_user_authentication_by_client_id, \
     validate_user_authentication_by_network_id
 
 

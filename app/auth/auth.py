@@ -9,7 +9,8 @@ from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 
 from data.db_service import get_from_db
-from infrastructure.middlewares.user import BaseUser
+from app.auth.user import BaseUser
+from infrastructure.exceptions.exception_handler import basic_exception_handler
 
 SECRET_KEY = r"PE/9wcV31ayos6hpy/RV0uf9qC8FzJPZKPKVb4h2TJ0="
 ALGORITHM = "HS256"
@@ -50,10 +51,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 oauth2_cookie_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="token")
 
 
+@basic_exception_handler
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 
+@basic_exception_handler
 def get_password_hash(password):
     return pwd_context.hash(password)
 
@@ -64,6 +67,7 @@ def get_user(email: str):
     return query, email
 
 
+@basic_exception_handler
 def authenticate_user(email: str, password: str):
     user = get_user(email)[0]
     if not user:
@@ -73,6 +77,7 @@ def authenticate_user(email: str, password: str):
     return user
 
 
+# @basic_exception_handler
 async def get_current_user(token: str = Depends(oauth2_cookie_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -102,6 +107,7 @@ class TokenData(BaseModel):
     email: Union[EmailStr, None] = None
 
 
+@basic_exception_handler
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -113,6 +119,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     return encoded_jwt
 
 
+@basic_exception_handler
 async def get_current_active_user(current_user: BaseUser = Depends(get_current_user)):
     if current_user and current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
@@ -147,7 +154,6 @@ def has_permission_to_client_networks(client_id, user_id):
 
 @get_from_db
 def has_permission_to_networks(network_id, user_id):
-    print("user_id",user_id)
     query = f"""SELECT 
                  client_id
              FROM 
@@ -157,6 +163,7 @@ def has_permission_to_networks(network_id, user_id):
     return query, network_id
 
 
+# @basic_exception_handler
 def validate_user_authentication_by_client_id(client_id: int, current_user: BaseUser = Depends(get_current_user)):
     if not is_client_exist_by_client_id(client_id)[0]["is_client_exist"]:
         raise ValueError("No such client exists in the system")
@@ -170,6 +177,7 @@ def validate_user_authentication_by_client_id(client_id: int, current_user: Base
     return True
 
 
+# @basic_exception_handler
 def validate_user_authentication_by_network_id(network_id: int, current_user: BaseUser = Depends(get_current_user)):
     if not is_client_exist_by_network_id(network_id)[0]["is_client_exist"]:
         raise ValueError("No such client exists in the system")

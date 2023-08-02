@@ -35,6 +35,3 @@ async def get_visual_connection(lst_connections: List):
     return buffer
 
 
-
-
-
