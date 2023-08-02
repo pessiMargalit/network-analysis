@@ -8,7 +8,6 @@ def db_handler(func):
     def decorator_exception(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-
         except pymysql.err.DatabaseError or pymysql.err.InternalError or pymysql.err.Warning or pymysql.err.OperationalError:
             raise HTTPException(status_code=500, detail=" DB server error\nTry again later...")
         except pymysql.err.NotSupportedError or pymysql.err.IntegrityError or pymysql.err.DataError or pymysql.err.ProgrammingError:

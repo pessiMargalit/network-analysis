@@ -23,5 +23,3 @@ def logger(another_func, *, level=logging.DEBUG):
         return wrapper
 
     return decorator
-
-
