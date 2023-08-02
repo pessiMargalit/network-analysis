@@ -1,5 +1,6 @@
 import pymysql
 import asyncio
+
 from data.db_connection import connect_to_db
 from data.db_service import get_from_db
 from infrastructure.exceptions.exception_handler import basic_exception_handler
