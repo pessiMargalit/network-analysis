@@ -1,4 +1,6 @@
+from data.db_connection import connect_to_db
 from data.db_service import get_from_db
+connection = connect_to_db()
 
 
 @get_from_db
@@ -31,7 +33,8 @@ def filter_devices_by_client_id(client_id, filter_name=None, filter_param=None):
                         )
                         AND {} = %s
                         ;""".format(filter_name)
-    return filter_devices(client_id, query_to_filter_with_param, query_to_filter_without_param, filter_name, filter_param)
+    return filter_devices(client_id, query_to_filter_with_param, query_to_filter_without_param, filter_name,
+                          filter_param)
 
 
 def filter_devices_by_network_id(network_id, filter_name=None, filter_param=None):
@@ -46,4 +49,5 @@ def filter_devices_by_network_id(network_id, filter_name=None, filter_param=None
         WHERE network_id = %s
         AND {} = %s
         """.format(filter_name)
-    return filter_devices(network_id, query_to_filter_with_param, query_to_filter_without_param, filter_name, filter_param)
+    return filter_devices(network_id, query_to_filter_with_param, query_to_filter_without_param, filter_name,
+                          filter_param)
