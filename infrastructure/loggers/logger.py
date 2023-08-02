@@ -1,7 +1,8 @@
 import logging
 import inspect
 
-def extract_info(another_func, *, level=logging.DEBUG):
+
+def logger(another_func, *, level=logging.DEBUG):
     def decorator(func):
         def wrapper(*args, **kwargs):
             format = "%(asctime)s LEVEL: %(levelname)s MSG: %(message)s"
@@ -14,7 +15,8 @@ def extract_info(another_func, *, level=logging.DEBUG):
             func_name = another_func.__name__
             signature = inspect.signature(another_func)
             params = list(signature.parameters.keys())
-            logger.log(level=level, msg=f"Name of another_func: {func_name}, with parameters of another_func: {params}",)
+            logger.log(level=level,
+                       msg=f"Name of another_func: {func_name}, with parameters of another_func: {params}", )
             # Call the original function with the given arguments
             return func(*args, **kwargs)
 

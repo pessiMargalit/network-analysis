@@ -1,9 +1,4 @@
-import configparser
-import os
-
 import pymysql
-from passlib.handlers import mysql
-
 from infrastructure.exceptions.exception_handler import db_handler
 
 active_connection = None

@@ -13,12 +13,13 @@ def db_handler(func):
             raise HTTPException(status_code=500, detail=" DB server error\nTry again later...")
         except pymysql.err.NotSupportedError or pymysql.err.IntegrityError or pymysql.err.DataError or pymysql.err.ProgrammingError:
             raise HTTPException(status_code=400, detail="DB client error\n")
-        except Exception as ex:
+        except Exception:
             raise HTTPException(status_code=400, detail="Sorry,DB error occurred..\n")
 
     return decorator_exception
 
 
+# @logger
 def error_handler(func):
     async def decorator_exception(*args, **kwargs):
         try:

@@ -51,6 +51,11 @@ def get_devices_connections(devices):
     return connections
 
 
+def find_router(devices, mac_address, ip_address):
+    if devices[mac_address]['ip_address'] != ip_address:
+        devices[mac_address]['ip_address'] = 'None'
+
+
 async def extract_devices_and_connections(packets):
     devices = {}
     connections = {}
@@ -66,13 +71,13 @@ async def extract_devices_and_connections(packets):
 
         if src_mac not in devices:
             devices[src_mac] = await get_device_vendor_by_mac_address(src_mac, src_ip)
-        elif devices[src_mac]['ip_address'] != src_ip:
-            devices[src_mac]['ip_address'] = 'None'
+        # elif protocol != 'ARP':
+        #     find_router(devices, src_mac, src_ip)
 
         if dst_mac not in devices:
             devices[src_mac] = await get_device_vendor_by_mac_address(dst_mac, dst_ip)
-        elif devices[dst_mac]['ip_address'] != dst_ip:
-            devices[dst_mac]['ip_address'] = 'None'
+        # elif protocol != 'ARP':
+        #     find_router(devices, dst_mac, dst_ip)
 
         if dst_mac not in devices[src_mac]['destinations']:
             devices[src_mac]['destinations'][dst_mac] = set()
