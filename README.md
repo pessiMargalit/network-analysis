@@ -5,13 +5,16 @@ Python server implemented with FastAPI
 SQL database
 External APIs
 React front end
-The application allows users to visualize and manipulate graph data. Users can:
 
-Load graph data from a variety of sources, including local files, databases, and external APIs.
+The application allows users to visualize and manipulate network analysis graph data.
+
+Users can:
+Load graph data from a local files.
 Explore the graph data by viewing nodes and edges.
 Filter the graph data by node or edge properties.
 Apply graph algorithms to the graph data.
 Export the graph data to a variety of formats.
+
 The application is designed to be easy to use and extensible. The source code is available on GitHub.
 
 # Getting Started
