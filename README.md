@@ -8,10 +8,20 @@ SQL database
 External APIs
 React front end
 
-# Getting Started
+The application allows users to visualize and manipulate graph data. 
+
+Users can:
+Load graph data from a variety of sources, including local files, databases, and external APIs.
+Explore the graph data by viewing nodes and edges.
+Filter the graph data by node or edge properties.
+Apply graph algorithms to the graph data.
+Export the graph data to a variety of formats.
+The application is designed to be easy to use and extensible. The source code is available on GitHub.
+
+#Getting Started
 To get started with the application, you will need to:
 
-# Install the dependencies.
+#Install the dependencies.
 Run the server.
 Open the web application in a browser.
 Installing the dependencies
@@ -35,8 +45,9 @@ The web application can be opened in a browser by visiting the following URL:
 
 http://localhost:8000
 
-# Documentation
+#Documentation
 The documentation for the application is available on GitHub.
 
-# Contributing
+#Contributing
 Contributions to the application are welcome. Please open an issue on GitHub if you would like to contribute.
+
