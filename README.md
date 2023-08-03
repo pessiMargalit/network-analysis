@@ -3,10 +3,10 @@ This application helps map and visualize the networks and devices deployed on cl
 
 This is a web application that the network analysis visualizes graph data. The application is built on a stack of technologies, including:
 
-Python server implemented with FastAPI
-SQL database
-External APIs
-React front end
+ - Python server implemented with FastAPI
+ - SQL database
+ - External APIs
+ - React front end
 
 The application allows users to visualize and manipulate graph data. 
 
@@ -50,4 +50,3 @@ The documentation for the application is available on GitHub.
 
 #Contributing
 Contributions to the application are welcome. Please open an issue on GitHub if you would like to contribute.
-
