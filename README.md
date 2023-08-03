@@ -1,5 +1,4 @@
-
-Graph Visualization Web Application
+# Graph Visualization Web Application
 This is a web application that visualizes graph data. The application is built on a stack of technologies, including:
 
 Python server implemented with FastAPI
@@ -15,10 +14,10 @@ Apply graph algorithms to the graph data.
 Export the graph data to a variety of formats.
 The application is designed to be easy to use and extensible. The source code is available on GitHub.
 
-Getting Started
+# Getting Started
 To get started with the application, you will need to:
 
-Install the dependencies.
+# Install the dependencies.
 Run the server.
 Open the web application in a browser.
 Installing the dependencies
@@ -42,8 +41,8 @@ The web application can be opened in a browser by visiting the following URL:
 
 http://localhost:8000
 
-Documentation
+# Documentation
 The documentation for the application is available on GitHub.
 
-Contributing
+# Contributing
 Contributions to the application are welcome. Please open an issue on GitHub if you would like to contribute.
