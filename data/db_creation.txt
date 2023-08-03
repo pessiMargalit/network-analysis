@@ -1,21 +1,19 @@
-client:
-CREATE TABLE `client` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
+client -
+CREATE TABLE `client` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, PRIMARY KEY (`id`) )
+device -
+CREATE TABLE `device` ( `id` int(11) NOT NULL AUTO_INCREMENT, `MAC_address` varchar(255) NOT NULL, `ip_address` varchar(255) NOT NULL, `vendor` varchar(255) NOT NULL, `network_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `network_id` (`network_id`), CONSTRAINT `device_ibfk_1` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`) )
+device_connection -
+CREATE TABLE `device_connection` ( `network_id` int(11) NOT NULL, `source` int(11) NOT NULL, `destination` int(11) NOT NULL, `protocol` varchar(255) NOT NULL, KEY `network_id` (`network_id`), KEY `source` (`source`), KEY `destination` (`destination`), CONSTRAINT `device_connection_ibfk_1` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`), CONSTRAINT `device_connection_ibfk_2` FOREIGN KEY (`source`) REFERENCES `device` (`id`), CONSTRAINT `device_connection_ibfk_3` FOREIGN KEY (`destination`) REFERENCES `device` (`id`) )
+network -
+CREATE TABLE `network` ( `id` int(11) NOT NULL AUTO_INCREMENT, `client_id` int(11) NOT NULL, `premise` varchar(255) NOT NULL, `date` date NOT NULL, PRIMARY KEY (`id`), KEY `client_id` (`client_id`), CONSTRAINT `network_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) )
+technician -
+CREATE TABLE `technician` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, PRIMARY KEY (`id`) )
+technician_clients -
+CREATE TABLE `technician_clients` ( `technician_id` int(11) NOT NULL, `client_id` int(11) NOT NULL, KEY `technician_id` (`technician_id`), KEY `client_id` (`client_id`), CONSTRAINT `technician_clients_ibfk_1` FOREIGN KEY (`technician_id`) REFERENCES `technician` (`id`), CONSTRAINT `technician_clients_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) )
 
-technician:
-CREATE TABLE `technician` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1
 
-network:
-CREATE TABLE `network` ( `id` int(11) NOT NULL AUTO_INCREMENT, `client_id` int(11) NOT NULL, `premise` varchar(255) NOT NULL, `date` date NOT NULL, PRIMARY KEY (`id`), KEY `client_id` (`client_id`), CONSTRAINT `network_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
 
-device:
-CREATE TABLE `device` ( `id` int(11) NOT NULL AUTO_INCREMENT, `MAC_address` varchar(255) NOT NULL, `ip_address` varchar(255) NOT NULL, `vendor` varchar(255) NOT NULL, `network_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `network_id` (`network_id`), CONSTRAINT `device_ibfk_1` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1
-
-device_connection:
-CREATE TABLE `device_connection` ( `network_id` int(11) NOT NULL, `source` int(11) NOT NULL, `destination` int(11) NOT NULL, `protocol` varchar(255) NOT NULL, KEY `network_id` (`network_id`), KEY `source` (`source`), KEY `destination` (`destination`), CONSTRAINT `device_connection_ibfk_1` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`), CONSTRAINT `device_connection_ibfk_2` FOREIGN KEY (`source`) REFERENCES `device` (`id`), CONSTRAINT `device_connection_ibfk_3` FOREIGN KEY (`destination`) REFERENCES `device` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=latin1
-
-technician_clients:
-CREATE TABLE `technician_clients` ( `technician_id` int(11) NOT NULL, `client_id` int(11) NOT NULL, KEY `technician_id` (`technician_id`), KEY `client_id` (`client_id`), CONSTRAINT `technician_clients_ibfk_1` FOREIGN KEY (`technician_id`) REFERENCES `technician` (`id`), CONSTRAINT `technician_clients_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=latin1
-
-insert into technician_clients:
 INSERT INTO technician_clients (technician_id,client_id)
-VALUES((SELECT id FROM technician WHERE id = 11),(SELECT id FROM client WHERE id = 3))
+VALUES((SELECT id FROM technician WHERE id = 3),(SELECT id FROM client WHERE id = 2))
+
+

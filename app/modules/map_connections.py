@@ -12,6 +12,7 @@ def get_network_devices_connections(network_id):
             dst.MAC_address AS destination_MAC,
             dst.vendor AS destination_vendor,
             dst.ip_address AS destination_ip,
+            protocol AS protocol         
             (
                 SELECT GROUP_CONCAT(protocol_type)
                 FROM protocol
