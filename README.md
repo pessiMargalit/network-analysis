@@ -1,21 +1,12 @@
-# Graph Visualization Web Application
-This is a web application that visualizes graph data. The application is built on a stack of technologies, including:
+# Network Mapping Application
+This application helps map and visualize the networks and devices deployed on clients' premises. It can be used to identify faulty devices, create clarity about the different devices and networks, and ensure efficient service.
+
+This is a web application that the network analysis visualizes graph data. The application is built on a stack of technologies, including:
 
 Python server implemented with FastAPI
 SQL database
 External APIs
 React front end
-
-The application allows users to visualize and manipulate network analysis graph data.
-
-Users can:
-Load graph data from a local files.
-Explore the graph data by viewing nodes and edges.
-Filter the graph data by node or edge properties.
-Apply graph algorithms to the graph data.
-Export the graph data to a variety of formats.
-
-The application is designed to be easy to use and extensible. The source code is available on GitHub.
 
 # Getting Started
 To get started with the application, you will need to:
