@@ -3,21 +3,18 @@ from scapy.all import rdpcap
 from scapy.libs.six import BytesIO
 
 
-async def is_pcap(file_content):
-    # Check if the file content matches the PCAP magic number
-    pcap_magic_number = b"\xd4\xc3\xb2\xa1"  # little-endian
-    return file_content.startswith(pcap_magic_number)
+async def is_capture_file(file_content):
+    file_types_magic_number = {"pcap": b"\xd4\xc3\xb2\xa1", "pcapng": b"\x0a\x0d\x0d\x0a\x00\x00\x00\x01"}
+    for magic_number in file_types_magic_number.values():
+        is_correct_type = file_content.startswith(magic_number)
+        if not is_correct_type:
+            return False
+    return True
 
 
-async def is_pcapng(file_content):
-    # Check if the file content matches the PCAPNG magic number
-    pcapng_magic_number = b"\x0a\x0d\x0d\x0a\x00\x00\x00\x01"
-    return file_content.startswith(pcapng_magic_number)
-
-
-async def read_file(capture_file_content):
-    if await is_pcap(capture_file_content) or await is_pcapng(capture_file_content):
-        pcap_file = BytesIO(capture_file_content)
+async def read_file(file_content):
+    if await is_capture_file(file_content):
+        pcap_file = BytesIO(file_content)
         packets = rdpcap(pcap_file)
         return await extract_devices_and_connections(packets)
     raise FileNotFoundError("Only capture files must be uploaded")

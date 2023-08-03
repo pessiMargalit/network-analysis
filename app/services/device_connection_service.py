@@ -8,6 +8,6 @@ from infrastructure.exceptions.exception_handler import error_handler
 @error_handler
 async def view_network_map(network_id):
     lst_connection = get_network_devices_connections(network_id)
-    network_map = await get_visual_connection(lst_connection)
+    network_map = await get_visual_connection(lst_connection, network_id)
     return network_map
 

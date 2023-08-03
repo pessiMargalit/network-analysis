@@ -44,7 +44,7 @@ async def view_device_connection(network_id: int,
 
 @router.get(BASE_PATH + "devices/{network_id}")
 async def get_network_devices_by_filter(network_id: int, filter: str = None, filter_param: str = None,
-                                  is_authenticated: bool = Depends(validate_user_authentication_by_network_id)):
+                                        is_authenticated: bool = Depends(validate_user_authentication_by_network_id)):
     if not is_authenticated:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,7 +56,7 @@ async def get_network_devices_by_filter(network_id: int, filter: str = None, fil
 
 @router.get(BASE_PATH + "devices/client/{client_id}")
 async def get_client_devices_by_filter(client_id, filter: str = None, filter_param: str = None,
-                                 is_authenticated: bool = Depends(validate_user_authentication_by_client_id)):
+                                       is_authenticated: bool = Depends(validate_user_authentication_by_client_id)):
     if not is_authenticated:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -68,7 +68,8 @@ async def get_client_devices_by_filter(client_id, filter: str = None, filter_par
 
 @router.get(BASE_PATH + "information/{network_id}")
 async def get_network_statistics_information(network_id,
-                                       is_authenticated: bool = Depends(validate_user_authentication_by_network_id)):
+                                             is_authenticated: bool = Depends(
+                                                 validate_user_authentication_by_network_id)):
     if not is_authenticated:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -79,13 +80,5 @@ async def get_network_statistics_information(network_id,
 
 
 @router.get(BASE_PATH + "information/device/{device_id}")
-async def get_network_statistics_information(device_id,
-                                       # is_authenticated: bool = Depends(validate_user_authentication_by_network_id)
-                                       ):
-    # if not is_authenticated:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_401_UNAUTHORIZED,
-    #         detail="Not authenticated",
-    #         headers={"WWW-Authenticate": "Bearer"},
-    #     )
+async def get_network_statistics_information(device_id):
     return await get_device_information(device_id)
