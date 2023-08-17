@@ -45,8 +45,12 @@ The web application can be opened in a browser by visiting the following URL:
 
 http://localhost:8000
 
-# Documentation
-The documentation for the application is available on GitHub.
+# Features
+The project has the following features:
+
+ - Ability to load network capture files.
+ - Ability to describe the network using a graph.
+ - Ability to provide network analysis, such as the number of nodes, the number of links, the strength of the links between nodes, and so on.
 
 # Contributing
 Contributions to the application are welcome. Please open an issue on GitHub if you would like to contribute.
